@@ -1,0 +1,297 @@
+#modalShow{
+    display: none;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.main{
+    height: 60vh;
+    background-color: #5C8984;
+}
+
+.header{
+    height: 4rem;
+}
+
+.item1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.headingColor{
+    background-color: #F9E0BB;
+}
+
+.item2{
+    display: flex;
+    align-items: flex-end;
+}
+
+.line{
+    flex-basis: 100%;
+    height: 0.25rem;
+}
+
+.formBox{
+    position: absolute;
+    top: 65%;
+}
+
+
+
+.headerFont{
+    font-family: 'PT Sans Caption', sans-serif;
+}
+
+.textBox{
+    display: inline-block;
+    text-align: center;
+    font-family: 'Bree Serif', serif;
+    color: azure;
+    font-size: 1.5rem;
+}
+
+.textbox-margin{
+    position: absolute;
+    bottom: 40%;
+}
+
+.formStyle{
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+
+.imageBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchBtn{
+    display: flex;
+    justify-content: end;
+}
+
+.searchBtnStyle{
+    font-size: 1.5rem;
+}
+
+.btnStyle{
+    background-color: transparent;
+    border: none;
+    color: black;
+    transition: transform 0.2s linear;
+}
+
+.btnStyle:active, .btnStyle:hover{
+    background-color: transparent !important;
+    border: none !important;
+    color: #1A4D2E !important;
+    animation: pop 0.5s infinite;
+}
+
+.formDisplay{
+    display: none;
+}
+
+.addAnimation{
+  animation-name: example;
+  animation-duration: 0.3s;
+}
+
+.cursor{
+  display: inline-block;
+  width: 3px;
+  height: 1.5rem;
+  background-color: black;
+  animation: blink 0.099s step-end infinite;
+}
+
+.modalHeight{
+    height: 27rem;
+    position: relative;
+}
+
+.imageStyle{
+    width: 11rem;
+    height: 7rem;
+}
+
+.formHeight{
+    height: 16rem;
+}
+
+.waitIconSize{
+    font-size: 15rem;
+}
+
+.modalBC{
+    background-color: #FFFAD7;
+    color: #1A4D2E;
+}
+
+.errorPage{
+    width: 100%;
+    height: 27rem;
+}
+
+.errorBC{
+    background-color: #F7FFE5;
+}
+
+.dPage{
+    background-color: #B9EDDD;
+    font-family: 'Poppins', sans-serif;
+    height: 27rem;
+    flex-direction: column;
+}
+
+.date{
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.weatherContent{
+    background-color: #E3F4F4;
+}
+
+.flagIcon{
+    height: 1.5rem;
+}
+
+.weatherIcon{
+    width: 5rem;
+    height: 5rem;
+}
+
+.borderLeft{
+    border-left: 3px solid #1A4D2E;
+    display: flex;
+    align-items: center;
+}
+
+.weatherBox{
+    display: flex;
+    align-items: center;
+}
+
+.cross-btn{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+.chartBox{
+    flex-grow: 1;
+}
+
+.chart{
+    height: 100%;
+}
+
+@keyframes blink {
+	0%{ 
+		background-color: transparent;
+	}
+	50% { 
+		background-color: black; 
+	}
+    100%{
+        background-color: transparent; 
+    }
+}
+
+
+@keyframes pop {
+    0% {
+    transform: translate(0px,0px) scale(1);
+  }
+  100% {
+    transform: translate(0px,-5px) scale(1.1);
+}
+}
+
+@keyframes example {
+    0% {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+}
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .value{
+        font-size: 0.75rem;
+    }
+    
+    .heading{
+        font-size: 0.4rem;
+    }
+    .cityName{
+        font-size: 0.85rem;
+    }
+.headerFont{
+    font-size: 1.25rem;
+}
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .value{
+        font-size: 0.85rem;
+    }
+    
+    .heading{
+        font-size: 0.5rem;
+    }
+    .cityName{
+        font-size: 1rem;
+    }
+
+    .headerFont{
+        font-size: 1.35rem;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .value{
+        font-size: 0.95rem;
+    }
+    
+    .heading{
+        font-size: 0.6rem;
+    }
+    .cityName{
+        font-size: 1.15rem;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .value{
+        font-size: 1rem;
+    }
+    
+    .heading{
+        font-size: 0.65rem;
+    }
+    .cityName{
+        font-size: 1.3rem;
+    }
+}
+

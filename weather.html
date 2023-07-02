@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>shazam</title>
+   <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://kit.fontawesome.com/3c40e0a958.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=PT+Sans+Caption&family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body onload="loadtext()">
+   <div class="main">
+       <div class="container-fluid">
+        <div class="row header">
+          <div class="col-5 col-sm-3 col-lg-2 headingColor p-0 headerFont">
+            <div class="item1 header">
+              <div class="p-2"><i class="fa-solid fa-bolt-lightning"></i></div>
+              <div>SHAZAM</div>
+            </div>
+          </div>
+          <div class="item2 col-7 col-sm-9 col-lg-10 p-0">
+            <div class = "headingColor line"></div>
+          </div>
+        </div>
+       </div>
+       <div class="container-fluid textbox-margin">
+           <div class="row justify-content-center">
+              <div class="col-10 col-sm-7 col-md-5 p-0">
+                <div id="mainText" class="textBox"></div>
+              </div>
+           </div>
+       </div>
+   </div>
+   <div class="formBox container-fluid">
+         <div class="row justify-content-center">
+            <div class="col-10 col-sm-7 col-md-5 p-0 headingColor formStyle formHeight">
+                <div class="row m-0 formStyle formHeight">
+                  <div class="col-12 imageBox mt-2 p-0">
+                    <img src="images/start-illustration.svg" alt="getting started" class="imageStyle">
+                  </div>
+                  <div class="col-12 mt-2 p-0">
+                    <div class="row m-0 justify-content-center">
+                      <div class="col-10 p-0">
+                    <select class="form-select" aria-label="Default select example" onchange="selectChange(event)">
+                      <option selected value="0">Choose how you want to search</option>
+                      <option value="1">By City name</option>
+                      <option value="2">By Coordinates</option>
+                    </select>
+                  </div>
+                    <div class="col-10 p-0 mt-2">
+                    <form onsubmit="check(event)" class="row justify-content-between formDisplay m-0" id = "id1" autocomplete="off">
+                      <div class="col-10 p-0">
+                        <input type="text" class="form-control" id="inputPassword2" placeholder="City" name="city" required>
+                      </div>
+                      <div class="col-2 p-0 searchBtn">
+                        <button type="submit" class="btn btn-primary mb-3 btnStyle"><i class="fa-brands fa-searchengin searchBtnStyle"></i></button>
+                      </div>
+                    </form>
+                    <form onsubmit="check(event)" class="row justify-content-between formDisplay m-0" id = "id2" autocomplete="off">
+                      <div class="col-5 p-0">
+                        <input type="text" class="form-control" id="inputPassword2" placeholder="latitude" name="lat" required>
+                      </div>
+                      <div class="col-5 ps-1 pe-0">
+                        <input type="text" class="form-control" id="inputPassword2" placeholder="longitude" name="long" required>
+                      </div>
+                      <div class="col-2 p-0 searchBtn">
+                        <button type="submit" class="btn btn-primary mb-3 btnStyle"><i class="fa-brands fa-searchengin searchBtnStyle"></i></button>
+                      </div>
+                    </form>
+                  </div>
+                  </div>
+                  </div>
+                  
+                </div>
+            </div>
+         </div>
+   </div>
+   <button id="modalShow" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content modalHeight">
+        <div id="wait" class="container-fluid modalBC">
+          <div class="row justify-content-center align-items-center modalHeight">
+            <div class="col-auto">
+              <i class="fa-solid fa-bolt-lightning fa-shake waitIconSize"></i> 
+            </div>  
+          </div>   
+        </div>
+        <div id="error" class="container-fluid errorBC">
+          <img src="images/error.svg" alt="getting started" class="errorPage">
+          <button type="button" class="btn-close cross-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="dashboard" class="container-fluid dPage p-1">
+          <div class="row justify-content-start m-1 p-0">
+            <div id="currentDate" class="col-6 date p-0">
+            </div>
+          </div>
+          <div id="content1" class="row m-1 p-1 formStyle weatherContent justify-content-center align-items-center">
+            <div class="col-3 p-0 imageBox">
+              <div>
+              <p id="city" class="m-0 cityName"></p>
+              <img id="flag" src="" class="flagIcon">
+            </div>
+            </div>
+            <div class="col-2 p-0 imageBox">
+              <img id="weather" src="https://openweathermap.org/img/wn/10d@2x.png" class="weatherIcon">
+            </div>
+            <div class="col-7 p-0">
+              <div class="row m-0 p-0 justify-content-between">
+                <div class="col-3 m-1 p-1 borderLeft">
+                  <div id="temperature">
+                  <p class="value m-0"></p>
+                  <p class="heading m-0">Temperature</p>
+                </div>
+                </div>
+                <div class="col-3 m-1 p-1 borderLeft">
+                  <div id="humidity">
+                  <p class="value m-0"></p>
+                  <p class="heading m-0">humidity</p>
+                  </div>
+                </div>
+                <div class="col-3 m-1 p-1 borderLeft">
+                  <div id="pressure">
+                  <p class="value m-0"></p>
+                  <p class="heading m-0">Pressure</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-0 p-0 justify-content-between">
+                <div class="col-3 m-1 p-1 borderLeft">
+                  <div id="visibility">
+                  <p class="value m-0"></p>
+                  <p class="heading m-0">Visibility</p>
+                  </div>
+                </div>
+                <div class="col-3 m-1 p-1 borderLeft">
+                  <div id="cloudiness">
+                  <p class="value m-0"></p>
+                  <p class="heading m-0">Cloudiness</p>
+                  </div>
+                </div>
+                <div class="col-3 m-1 p-1 borderLeft">
+                  <div id="aqi">
+                  <p class="value m-0"></p>
+                  <p class="heading m-0">AQI</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="content2" class="row justify-content-center align-items-center m-1 p-0 formStyle weatherContent chartBox">
+            <div class="col-12 p-0 chart">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+          <button type="button" class="btn-close cross-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <script src="javascript/index.js"></script>
+</body>
+</html>

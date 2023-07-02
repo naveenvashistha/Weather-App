@@ -1,33 +1,55 @@
+require('dotenv').config();
 const express = require("express");
-const https = require("https");
-const bodyParser = require("body-parser");
+const path = require('path');
+const axios = require("axios");
 
 const app = express();
-app.use(bodyParser.urlencoded({"extended":true}));
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get("/",function(req,res){
- res.sendFile(__dirname+"/index.html");
+  res.sendFile(__dirname + "/weather.html");
 });
 
 app.post("/", function(req,res){
-  const city = req.body.cityName;
-  const url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=metric&appid=5dbe2bfa94f965a6f78cf971b08d1916#";
-  https.get(url,function(response){
-    response.on("data",function(data){
-      const weatherData = JSON.parse(data);
-      const temp = weatherData.main.temp;
-      const icon = weatherData.weather[0].icon;
-      const description = weatherData.weather[0].description;
-      const imageURL = "http://openweathermap.org/img/wn/"+icon+"@2x.png";
-      res.write("<h1>weather conditions are: "+description+"</h1>");
-      res.write("<h1>Temperature in "+city+" is "+temp+"</h1>");
-      res.write("<img src = "+imageURL+">");
-      res.send();
-    });
-  });
+  if ('city' in req.body){
+     const city = req.body.city.toLowerCase();
+     axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.APP_ID}`)
+     .then((response)=>{
+      const data = response.data;
+      if (data.length != 0){
+         const lat = data[0].lat;
+         const lon = data[0].lon;
+         getDataFromAPI(lat,lon,res);
+      }
+      else{
+        res.status(400).send(error);
+      }
+     }).catch((error)=>{
+      res.status(400).send(error);
+     });
+  }
+  else{
+    getDataFromAPI(req.body.lat,req.body.lon,res);
+  }
 });
 
 
 app.listen(3000,function(){
   console.log("server is running");
 });
+
+
+function getDataFromAPI(lat,lon,res){
+  const current = axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.APP_ID}`);
+  const forecast = axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.APP_ID}`);
+  const air = axios.get(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.APP_ID}`);
+  Promise.all([current,forecast,air])
+  .then((result)=>{
+    res.send([result[0].data,result[1].data,result[2].data]);
+  })
+  .catch((error)=>{
+    res.status(400).send(error);
+  });
+}
