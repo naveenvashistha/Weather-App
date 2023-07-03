@@ -7,6 +7,7 @@ const currentDate = document.getElementById("currentDate");
 const month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const text = ["Dont know whats the weather at your place?","Click the button and let the power of Gods may flow through you. Shazam!!!"];
+const air = {"1":"Good", "2":"Fair","3":"Moderate","4":"Poor","5":"Very Poor"}
 const tag = document.getElementById("mainText");
 const weather = document.getElementById("weather");
 const modal = document.getElementById("modalShow");
@@ -140,7 +141,7 @@ function getData(dataPoints){
         currentDate.innerHTML = `${dateNo} ${monthName} ${year}, ${day}`;
         weather.src = `https://openweathermap.org/img/wn/${response.data[0].weather[0].icon}@2x.png`
         flag.src = "https://flagcdn.com/"+ response.data[0].sys.country.toLowerCase() +".svg";
-        const entityValues = [`${Math.round(response.data[0].main.temp*10)/10}\u00B0C`,`${response.data[0].main.humidity}%`,`${response.data[0].main.pressure} hPa`,`${response.data[0].visibility/1000}km`,`${response.data[0].clouds.all}%`,response.data[2].list[0].main.aqi];
+        const entityValues = [`${Math.round(response.data[0].main.temp*10)/10}\u00B0C`,`${response.data[0].main.humidity}%`,`${response.data[0].main.pressure} hPa`,`${response.data[0].visibility/1000}km`,`${response.data[0].clouds.all}%`,air[response.data[2].list[0].main.aqi]];
         for(w=0; w<6; w++){
             document.getElementById(entityNames[w]).getElementsByClassName("value m-0")[0].innerHTML = entityValues[w];
         }

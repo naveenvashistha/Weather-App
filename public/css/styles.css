@@ -187,12 +187,15 @@ body{
 }
 
 .chartBox{
-    flex-grow: 1;
+    flex: 1;
+    min-height: 0;
 }
 
 .chart{
     height: 100%;
+    position: relative;
 }
+
 
 @keyframes blink {
 	0%{ 
