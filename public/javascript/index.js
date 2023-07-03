@@ -17,6 +17,44 @@ const content2 = document.getElementById("content2");
 let itemIndex = 0;
 let letterIndex = 0;
 const entityNames = ['temperature','humidity','pressure','visibility','cloudiness','aqi'];
+let lineChart = new Chart("myChart", {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+      label: 'Temp',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(122,120,150,120)",
+      borderColor: "rgba(21,38,2,0.1)",
+      pointStyle: 'circle',
+      pointRadius: 5,
+      pointHoverRadius: 10,
+      data: []
+ }]
+},
+   options: {
+     responsive: true,
+     maintainAspectRatio: false,
+     legend: {display: false},
+     title: {
+         display: true,
+         text: '5 days forecast'
+       },
+     scales: {
+     xAxes: [{
+         gridLines: {
+             display:false
+         }
+     }],
+     yAxes: [{
+         gridLines: {
+             display:false
+         }   
+     }]
+ }
+}
+});
 
 function selectChange(event){
    if (event.target.value === "0"){
@@ -92,10 +130,8 @@ function check(event){
 }
 
 function getData(dataPoints){
-    console.log(dataPoints);
     axios.post("/",dataPoints)
     .then((response)=>{
-        console.log(response);
         const d = new Date();
         let dateNo = d.getDate();
         let monthName = month[d.getMonth()];
@@ -122,14 +158,13 @@ function getData(dataPoints){
     })
     .catch((error)=>{
         setTimeout(()=>{
-            console.log(error);
             hide(wait,dashboard,content1,content2);
             show(errorPage);
         },2000);
     });
 }
 
-function makeChart(response,dateNo){
+function makeChart(response){
     let chartPoints = [];
     let days = [];
     let timePoints = response.data[1].list;
@@ -139,44 +174,9 @@ function makeChart(response,dateNo){
             chartPoints.push(p.main.temp);
             days.push(`${dt.getDate()} ${month[dt.getMonth()]}`);
         }
-    new Chart("myChart", {
-       type: "line",
-       data: {
-         labels: days,
-         datasets: [{
-         label: 'Temp',
-         fill: false,
-         lineTension: 0,
-         backgroundColor: "rgba(122,120,150,120)",
-         borderColor: "rgba(21,38,2,0.1)",
-         pointStyle: 'circle',
-         pointRadius: 5,
-         pointHoverRadius: 10,
-         data: chartPoints
-    }]
-  },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {display: false},
-        title: {
-            display: true,
-            text: '5 days forecast'
-          },
-        scales: {
-        xAxes: [{
-            gridLines: {
-                display:false
-            }
-        }],
-        yAxes: [{
-            gridLines: {
-                display:false
-            }   
-        }]
     }
-   }
-});
-    }
-    
+    lineChart.data.labels = days;
+    lineChart.data.datasets[0].data = chartPoints;
+    lineChart.update();
 }
+
