@@ -145,7 +145,7 @@ body{
 }
 
 .dPage{
-    background-color: #B9EDDD;
+    background-color: #87CBB9;
     font-family: 'Poppins', sans-serif;
     height: 27rem;
     flex-direction: column;
@@ -157,7 +157,7 @@ body{
 }
 
 .weatherContent{
-    background-color: #E3F4F4;
+    background-color: #B9EDDD;
 }
 
 .flagIcon{

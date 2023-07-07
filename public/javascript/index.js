@@ -21,38 +21,67 @@ const entityNames = ['temperature','humidity','pressure','visibility','cloudines
 let lineChart = new Chart("myChart", {
     type: "line",
     data: {
-      labels: [],
       datasets: [{
+      pointRadius: 20,
       label: 'Temp',
-      fill: false,
-      lineTension: 0,
-      backgroundColor: "rgba(122,120,150,120)",
-      borderColor: "rgba(21,38,2,0.1)",
-      pointStyle: 'circle',
-      pointRadius: 5,
-      pointHoverRadius: 10,
+      borderColor: "rgba(21,1,2,0.1)",
+      pointStyle: [],
       data: []
  }]
 },
    options: {
+    plugins: {
+        legend: false,
+        title: {
+            display: true,
+            text: '5 days forecast'
+          }
+    },
      responsive: true,
      maintainAspectRatio: false,
-     legend: {display: false},
-     title: {
-         display: true,
-         text: '5 days forecast'
-       },
      scales: {
-     xAxes: [{
-         gridLines: {
+     x1: {
+        border:{
+            display: false
+        },
+        offset:true,
+        labels: [],
+        type: 'category',
+        display: false,
+         grid: {
              display:false
          }
-     }],
-     yAxes: [{
-         gridLines: {
-             display:false
-         }   
-     }]
+     },
+     x:{
+        border:{
+            display: false
+        },
+        offset:true,
+        type: 'category',
+        ticks:{
+            padding: 8
+        },
+        labels: [],
+        display: true, // Set to false to hide the axis
+        grid: {
+            display:false
+        }
+
+      },
+     y: {
+        border:{
+            display: false
+        },
+        offset:true,
+        display: true,
+        ticks:{
+            padding: 10
+        },
+        grid: {
+            display:false
+        }
+
+     }
  }
 }
 });
@@ -158,6 +187,7 @@ function getData(dataPoints){
         },2000);
     })
     .catch((error)=>{
+        console.log(error);
         setTimeout(()=>{
             hide(wait,dashboard,content1,content2);
             show(errorPage);
@@ -166,18 +196,27 @@ function getData(dataPoints){
 }
 
 function makeChart(response){
+    // console.log(response.data[1]);
     let chartPoints = [];
     let days = [];
+    let pointImg = [];
+    let description = [];
     let timePoints = response.data[1].list;
-    for(p of timePoints){
+    for(const p of timePoints){
         let dt = new Date(p.dt_txt);
         if(dt.getHours() === 12){
-            chartPoints.push(p.main.temp);
+            let img = new Image(50,50);
+            img.src =  `https://openweathermap.org/img/wn/${p.weather[0].icon}@2x.png`;
             days.push(`${dt.getDate()} ${month[dt.getMonth()]}`);
+            description.push(p.weather[0].description);
+            chartPoints.push(p.main.temp);
+            pointImg.push(img);
         }
     }
-    lineChart.data.labels = days;
+    lineChart.options.scales["x1"].labels = description;
+    lineChart.options.scales["x"].labels = days;
     lineChart.data.datasets[0].data = chartPoints;
+    lineChart.data.datasets[0].pointStyle = pointImg;
     lineChart.update();
 }
 
